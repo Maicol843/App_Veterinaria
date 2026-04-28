@@ -4,24 +4,27 @@ def crear_base_datos():
     conexion = sqlite3.connect("veterinaria.db")
     cursor = conexion.cursor()
 
+    # Eliminamos la tabla anterior si existe para aplicar los nuevos cambios
+    cursor.execute('DROP TABLE IF EXISTS mascotas')
+
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS mascotas (
+        CREATE TABLE mascotas (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             nombre_mascota TEXT, ruta_foto TEXT, especie TEXT, raza TEXT, 
-            sexo TEXT, fecha_nac TEXT, edad TEXT, peso TEXT, talla TEXT, 
+            sexo TEXT, fecha_nac TEXT, edad TEXT, talla TEXT, 
             vive_otros TEXT, cuales_animales TEXT,
-            nombre_dueno TEXT, direccion TEXT, telefono TEXT, email TEXT,
-            fecha_consulta TEXT, motivo_consulta TEXT, diagnostico TEXT, precio_consulta TEXT,
-            fecha_vacuna TEXT, proxima_vacuna TEXT, nombre_vacuna TEXT,
-            fecha_despar TEXT, producto_despar TEXT,
-            esterilizado TEXT, num_partos TEXT,
-            rabia TEXT, rabia_detalles TEXT, alergia TEXT, alergia_detalles TEXT,
-            enfermedades TEXT, cirugias_previas TEXT, cirugias_detalles TEXT,
-            tratamientos TEXT, medicacion TEXT
+            castrado TEXT, plan_vacuna TEXT, plan_despar TEXT, anamnesis TEXT,
+            peso TEXT, temperatura TEXT, llc TEXT, mucosas TEXT, 
+            fc TEXT, fr TEXT, pulso TEXT, actitud TEXT,
+            cc_piel TEXT, locomotor TEXT, cardiaco TEXT, respiratorio TEXT, 
+            digestivo TEXT, urinario TEXT, ganglios TEXT, ojo_oido TEXT, nervioso TEXT,
+            exam_comple TEXT, diag_presuntivo TEXT, tratamiento TEXT, control TEXT,
+            fecha_consulta TEXT, motivo_consulta TEXT, precio TEXT
         )
     ''')
     conexion.commit()
     conexion.close()
+    print("Base de datos actualizada con éxito.")
 
 if __name__ == "__main__":
     crear_base_datos()

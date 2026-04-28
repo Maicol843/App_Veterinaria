@@ -33,7 +33,7 @@ class AppVeterinaria(ctk.CTk):
                                           fg_color=btn_color, hover_color=btn_hover, command=self.show_registro)
         self.btn_registro.grid(row=2, column=0, padx=20, pady=10)
 
-        self.btn_mascotas = ctk.CTkButton(self.navigation_frame, text="Mascotas", 
+        self.btn_mascotas = ctk.CTkButton(self.navigation_frame, text="Pacientes", 
                                           fg_color=btn_color, hover_color=btn_hover, command=self.show_mascotas)
         self.btn_mascotas.grid(row=3, column=0, padx=20, pady=10)
 
@@ -78,7 +78,7 @@ class AppVeterinaria(ctk.CTk):
 
     def show_mascotas(self):
         self.clear_main_container()
-        ctk.CTkLabel(self.main_container, text="Listado de Pacientes (Mascotas)", font=("Arial", 20)).pack(pady=20)
+        ctk.CTkLabel(self.main_container, text="Listado de Pacientes", font=("Arial", 20)).pack(pady=20)
 
     def show_agenda(self):
         self.clear_main_container()
