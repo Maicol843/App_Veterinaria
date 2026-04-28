@@ -10,7 +10,7 @@ class RegistroFrame(ctk.CTkScrollableFrame):
         self.ruta_foto = ""
 
         # Título Principal
-        ctk.CTkLabel(self, text="REGISTRO CLÍNICO VETERINARIO", font=("Arial", 30, "bold")).pack(pady=20)
+        ctk.CTkLabel(self, text="REGISTRO DE PACIENTES", font=("Arial", 30, "bold")).pack(pady=20)
 
         # Contenedor Principal
         self.grid_container = ctk.CTkFrame(self, fg_color="transparent")
@@ -20,11 +20,10 @@ class RegistroFrame(ctk.CTkScrollableFrame):
         self.grid_container.columnconfigure((0, 1), weight=1, pad=30)
 
         # --- FILA 0: PARTE SUPERIOR ---
-        # Columna 1: Datos Básicos de la Mascota
+        # Columna 1: Datos de la Mascota y Dueño
         col1 = self.crear_columna(self.grid_container, 0, 0, "DATOS DE LA MASCOTA")
         self.nombre = self.add_input(col1, "Nombre:")
         
-        # Botón con ancho original
         self.btn_img = ctk.CTkButton(col1, text="Subir Imagen", fg_color="#20c997", hover_color="#19a179", command=self.subir_img)
         self.btn_img.pack(pady=10)
         
@@ -38,34 +37,38 @@ class RegistroFrame(ctk.CTkScrollableFrame):
         # Sección Dinámica: Vive con otros
         self.otros_anim = self.add_select(col1, "¿Vive con otros?", ["No", "Si"], command=lambda v: self.toggle_area(v, self.area_otros))
         
-        # Contenedor para que "¿Cuáles?" aparezca inmediatamente debajo
         self.contenedor_otros = ctk.CTkFrame(col1, fg_color="transparent")
         self.contenedor_otros.pack(fill="x")
         self.area_otros = self.add_area(self.contenedor_otros, "Cuáles?", visible=False)
 
-        # Columna 2: Historia Clínica y Constantes Fisiológicas (Sin título general)
+        # --- SECCIÓN: DATOS DEL DUEÑO (Debajo de ¿Cuáles?) ---
+        ctk.CTkLabel(col1, text="DATOS DEL DUEÑO", font=("Arial", 16, "bold"), text_color="#20c997").pack(pady=(25, 10))
+        self.nom_dueno = self.add_input(col1, "Nombre:")
+        self.ape_dueno = self.add_input(col1, "Apellido:")
+        self.dir_dueno = self.add_input(col1, "Dirección:")
+        self.tel_dueno = self.add_input(col1, "Teléfono:")
+        self.mail_dueno = self.add_input(col1, "Correo Electrónico:")
+
+        # Columna 2: Historia Clínica y Constantes Fisiológicas
         col2 = self.crear_columna(self.grid_container, 0, 1, "") # Título vacío
         
-        # Historia Clínica al principio de la columna 2
         ctk.CTkLabel(col2, text="HISTORIA CLÍNICA", font=("Arial", 16, "bold"), text_color="#20c997").pack(pady=(10, 10))
         self.castrado = self.add_input(col2, "Castrado:") 
         self.plan_vac = self.add_input(col2, "Plan de Vacunación:")
         self.plan_des = self.add_input(col2, "Plan de Desparacitación:")
         self.anamnesis = self.add_area(col2, "Anamnesis:")
         
-        # Constantes Fisiológicas debajo de Historia Clínica
         ctk.CTkLabel(col2, text="CONSTANTES FISIOLÓGICAS", font=("Arial", 16, "bold"), text_color="#20c997").pack(pady=(20, 10))
         self.peso = self.add_input(col2, "Peso (kg):")
         self.temp = self.add_input(col2, "Temperatura (°C):")
         self.llc = self.add_input(col2, "Llenado Capilar:")
         self.mucosas = self.add_input(col2, "Mucosas:")
         self.fc = self.add_input(col2, "Frecuencia Cardíaca:")
-        self.fr = self.add_input(col2, "Frcuencia Respiratoria:")
+        self.fr = self.add_input(col2, "Frecuencia Respiratoria:")
         self.pulso = self.add_input(col2, "Pulso:")
         self.actitud = self.add_input(col2, "Actitud:")
 
         # --- FILA 1: PARTE INFERIOR ---
-        # Columna 3: Examen Físico (Abajo Izquierda)
         col3 = self.crear_columna(self.grid_container, 1, 0, "EXAMEN FÍSICO")
         self.cc_piel = self.add_area(col3, "CC-Piel:")
         self.locomotor = self.add_area(col3, "Locomotor:")
@@ -77,7 +80,6 @@ class RegistroFrame(ctk.CTkScrollableFrame):
         self.ojo_oido = self.add_area(col3, "Ojo-Oído:")
         self.nervioso = self.add_area(col3, "Nervioso:")
 
-        # Columna 4: Seguimiento y Consulta (Abajo Derecha)
         col4 = self.crear_columna(self.grid_container, 1, 1, "SEGUIMIENTO")
         self.exam_comple = self.add_area(col4, "Exámenes Complementarios:")
         self.diag_presun = self.add_area(col4, "Diagnóstico Presuntivo:")
@@ -89,7 +91,6 @@ class RegistroFrame(ctk.CTkScrollableFrame):
         self.motivo = self.add_select(col4, "Motivo:", ["Consulta general", "Dermatológico", "Neurológico", "Cardíaco", "Oncológico"])
         self.precio = self.add_input(col4, "Precio:")
 
-        # Botón Registrar
         self.btn_reg = ctk.CTkButton(self, text="Registrar 🡆", height=45, fg_color="#20c997", 
                                      hover_color="#19a179", font=("Arial", 18, "bold"), command=self.guardar)
         self.btn_reg.pack(pady=50)
@@ -139,7 +140,8 @@ class RegistroFrame(ctk.CTkScrollableFrame):
     def limpiar_formulario(self):
         entradas = [self.nombre, self.raza, self.f_nac, self.edad, self.castrado, self.plan_vac, self.plan_des, 
                     self.peso, self.temp, self.llc, self.mucosas, self.fc, self.fr, self.pulso, 
-                    self.actitud, self.f_con, self.precio]
+                    self.actitud, self.f_con, self.precio, 
+                    self.nom_dueno, self.ape_dueno, self.dir_dueno, self.tel_dueno, self.mail_dueno]
         for e in entradas:
             e.delete(0, 'end')
 
@@ -169,20 +171,23 @@ class RegistroFrame(ctk.CTkScrollableFrame):
         try:
             conn = sqlite3.connect("veterinaria.db")
             c = conn.cursor()
+            # Nota: Asegúrate de que la tabla 'mascotas' tenga las columnas para el dueño
             c.execute('''INSERT INTO mascotas (
                 nombre_mascota, ruta_foto, especie, raza, sexo, fecha_nac, edad, talla, vive_otros, cuales_animales,
+                nombre_dueno, apellido_dueno, direccion, telefono, email,
                 castrado, plan_vacuna, plan_despar, anamnesis, peso, temperatura, llc, mucosas, fc, fr, pulso, actitud,
                 cc_piel, locomotor, cardiaco, respiratorio, digestivo, urinario, ganglios, ojo_oido, nervioso,
                 exam_comple, diag_presuntivo, tratamiento, control, fecha_consulta, motivo_consulta, precio
-            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)''', (
+            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)''', (
                 self.nombre.get(), nombre_foto, self.especie.get(), self.raza.get(), self.sexo.get(), self.f_nac.get(), self.edad.get(), self.talla.get(), self.otros_anim.get(), self.area_otros.get("1.0", "end-1c"),
+                self.nom_dueno.get(), self.ape_dueno.get(), self.dir_dueno.get(), self.tel_dueno.get(), self.mail_dueno.get(),
                 self.castrado.get(), self.plan_vac.get(), self.plan_des.get(), self.anamnesis.get("1.0", "end-1c"), self.peso.get(), self.temp.get(), self.llc.get(), self.mucosas.get(), self.fc.get(), self.fr.get(), self.pulso.get(), self.actitud.get(),
                 self.cc_piel.get("1.0", "end-1c"), self.locomotor.get("1.0", "end-1c"), self.cardiaco.get("1.0", "end-1c"), self.respiratorio.get("1.0", "end-1c"), self.digestivo.get("1.0", "end-1c"), self.urinario.get("1.0", "end-1c"), self.ganglios.get("1.0", "end-1c"), self.ojo_oido.get("1.0", "end-1c"), self.nervioso.get("1.0", "end-1c"),
                 self.exam_comple.get("1.0", "end-1c"), self.diag_presun.get("1.0", "end-1c"), self.trata.get("1.0", "end-1c"), self.control.get("1.0", "end-1c"), self.f_con.get(), self.motivo.get(), self.precio.get()
             ))
             conn.commit()
             conn.close()
-            messagebox.showinfo("Éxito", "Se registró el paciente, correctamente")
+            messagebox.showinfo("Éxito", "Historia clínica guardada correctamente")
             self.limpiar_formulario()
         except Exception as e:
             messagebox.showerror("Error", f"Error al guardar: {e}")
